@@ -247,25 +247,18 @@
         }
 
         .problem-display {
-            background: #f8fafc;
-            padding: 48px 32px;
-            border-radius: 12px;
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 500;
-            color: #64748b;
-            border: 2px dashed #e2e8f0;
-            min-height: 140px;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            min-height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .problem-display.active {
-            background: white;
-            border: 2px solid #e2e8f0;
-            color: #1e293b;
-            font-size: 20px;
         }
 
         .answer-input {
@@ -379,9 +372,7 @@
 
         <div class="section">
             <div class="section-title">Mode</div>
-            <div class="mode-selector" id="modeSelector">
-                <!-- Modes will be populated here -->
-            </div>
+            <div class="mode-selector" id="modeSelector"></div>
         </div>
 
         <div class="section">
@@ -434,6 +425,9 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/your-username/math-dictator@main/script.js"></script>
+</body>
 
     <script>
         class MathDictator {
