@@ -506,7 +506,7 @@
                 return modes[level] || [];
             }
 
-            updateModeSelector() {
+               updateModeSelector() {
                 const modeSelector = document.getElementById('modeSelector');
                 const modes = this.getLevelModes(this.currentLevel);
                 
@@ -517,7 +517,6 @@
                     </div>
                 `).join('');
 
-                // Update current mode to first available if not present
                 if (!modes.find(m => m.id === this.currentMode)) {
                     this.currentMode = modes[0].id;
                     const firstCard = modeSelector.querySelector('.mode-card');
@@ -528,43 +527,36 @@
             }
 
             initializeEventListeners() {
-                // Level selection
                 document.querySelectorAll('.level-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        // Allow changing levels even when active
                         document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
                         e.target.classList.add('active');
                         this.currentLevel = parseInt(e.target.dataset.level);
                         this.updateModeSelector();
-                        // If practice is active, stop it when changing levels
                         if (this.isActive) {
                             this.stop();
                         }
                     });
                 });
 
-                // Mode selection (delegated)
                 document.getElementById('modeSelector').addEventListener('click', (e) => {
                     const card = e.target.closest('.mode-card');
                     if (card) {
                         document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
                         card.classList.add('active');
                         this.currentMode = card.dataset.mode;
-                        // If practice is active, stop it when changing modes
                         if (this.isActive) {
                             this.stop();
                         }
                     }
                 });
 
-                // Control buttons
                 document.getElementById('startBtn').addEventListener('click', () => this.start());
                 document.getElementById('stopBtn').addEventListener('click', () => this.stop());
                 document.getElementById('repeatBtn').addEventListener('click', () => this.repeatProblem());
                 document.getElementById('newProblemBtn').addEventListener('click', () => this.generateNewProblem());
                 document.getElementById('resetBtn').addEventListener('click', () => this.resetStats());
 
-                // Answer input
                 const answerInput = document.getElementById('answerInput');
                 answerInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter' && this.isActive) {
@@ -572,11 +564,10 @@
                     }
                 });
 
-                // Speech rate control
                 const speechRateSlider = document.getElementById('speechRate');
                 speechRateSlider.addEventListener('input', (e) => {
                     this.speechRate = parseFloat(e.target.value);
-                    document.getElementById('speedValue').textContent = this.speechRate.toFixed(1);
+                    document.getElementById('speedValue').textContent = this.speechRate.toFixed(1) + 'x';
                     this.autoSpeedSet = false;
                     document.getElementById('autoSpeedIndicator').textContent = '';
                 });
@@ -600,7 +591,7 @@
 
             formatNumberForTTS(number) {
                 if (typeof number === 'number' && !Number.isInteger(number)) {
-                    let numberString = number.toStringAsFixed(2);
+                    let numberString = number.toFixed(2);
                     if (number >= 0 && number < 1) {
                         return 'zero point ' + numberString.split('.')[1];
                     }
@@ -612,7 +603,7 @@
             setAutoSpeed(rate) {
                 this.speechRate = rate;
                 document.getElementById('speechRate').value = rate;
-                document.getElementById('speedValue').textContent = rate.toFixed(1);
+                document.getElementById('speedValue').textContent = rate.toFixed(1) + 'x';
                 this.autoSpeedSet = true;
                 document.getElementById('autoSpeedIndicator').textContent = '(auto)';
             }
@@ -621,7 +612,6 @@
                 this.isDecimal = false;
                 let problemStatement = '';
 
-                // Level 2
                 if (this.currentLevel === 2) {
                     if (this.currentMode === 'Mental Math') {
                         problemStatement = this.generateLevel2MentalMathProblem();
@@ -629,7 +619,6 @@
                         problemStatement = this.generateLevel2AbacusProblem();
                     }
                 }
-                // Level 3
                 else if (this.currentLevel === 3) {
                     switch (this.currentMode) {
                         case 'Mental Math 1 digit':
@@ -646,7 +635,6 @@
                             break;
                     }
                 }
-                // Level 4
                 else if (this.currentLevel === 4) {
                     switch (this.currentMode) {
                         case 'Use Abacus 2 and 3 digits':
@@ -660,7 +648,6 @@
                             break;
                     }
                 }
-                // Level 5
                 else if (this.currentLevel === 5) {
                     switch (this.currentMode) {
                         case 'Use Abacus 3 digits':
@@ -677,7 +664,6 @@
                             break;
                     }
                 }
-                // Level 6
                 else if (this.currentLevel === 6) {
                     switch (this.currentMode) {
                         case 'Use Abacus 4 digits':
@@ -700,7 +686,6 @@
                             break;
                     }
                 }
-                // Level 7
                 else if (this.currentLevel === 7) {
                     switch (this.currentMode) {
                         case 'Use Abacus 5 digits':
@@ -723,7 +708,6 @@
                             break;
                     }
                 }
-                // Level 8
                 else if (this.currentLevel === 8) {
                     switch (this.currentMode) {
                         case 'Use Abacus 5 digits':
