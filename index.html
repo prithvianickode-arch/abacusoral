@@ -1791,7 +1791,7 @@
                     
                     if (!isNaN(userNum) && Math.abs(userNum - expectedNum) < 0.01) {
                         this.correct++;
-                        feedbackDiv.innerHTML = `<div class="feedback correct">✅ Correct! ${this.currentProblem.replace(/plus/g, '+').replace(/minus/g, '-').replace(/times/g, '×').replace(/divided by/g, '÷')} = ${correctAnswer}</div>`;
+                        feedbackDiv.innerHTML = `<div class="feedback correct">✅ Correct! ${this.currentProblem.replace(/plus/g, '+').replace(/minus/g, '-').replace(/times/g, 'times').replace(/divided by/g, 'over')} 2. Set default speed to 1x = ${correctAnswer}</div>`;
                         
                         this.nextProblemTimeout = setTimeout(() => {
                             if (this.isActive) {
@@ -1808,7 +1808,7 @@
                     
                     if (userAnswer === correctAnswer) {
                         this.correct++;
-                        feedbackDiv.innerHTML = `<div class="feedback correct">✅ Correct! ${this.currentProblem.replace(/plus/g, '+').replace(/minus/g, '-').replace(/times/g, '×').replace(/divided by/g, '÷')} = ${this.currentAnswer}</div>`;
+                        feedbackDiv.innerHTML = `<div class="feedback correct">✅ Correct! ${this.currentProblem.replace(/plus/g, '+').replace(/minus/g, '-').replace(/times/g, 'times').replace(/divided by/g, 'over')} 2. Set default speed to 1x = ${this.currentAnswer}</div>`;
                         
                         this.nextProblemTimeout = setTimeout(() => {
                             if (this.isActive) {
