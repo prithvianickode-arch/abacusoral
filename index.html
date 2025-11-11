@@ -401,9 +401,13 @@
             </div>
         </div>
 
-        <div class="section">
-            <input type="text" class="answer-input" id="answerInput" placeholder="Enter your answer..." disabled>
-        </div>
+       <div class="section">
+           <input type="text" class="answer-input" id="answerInput" placeholder="Enter your answer..." disabled>
+       </div>
+
+       <div class="section">
+           <button class="btn btn-primary" id="submitBtn" disabled>Submit Answer</button>
+       </div>
 
         <div id="feedback"></div>
 
@@ -557,6 +561,7 @@
                         this.checkAnswer();
                     }
                 });
+                document.getElementById('submitBtn').addEventListener('click', () => this.checkAnswer());
 
                 const speechRateSlider = document.getElementById('speechRate');
                 speechRateSlider.addEventListener('input', (e) => {
@@ -764,7 +769,7 @@
             }
 
             generateLevel2AbacusProblem() {
-                this.setAutoSpeed(1.0);
+                this.setAutoSpeed(.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(10, 99);
@@ -835,7 +840,7 @@
             }
 
             generateLevel3MentalMath2DigitProblem() {
-                this.setAutoSpeed(0.95);
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(10, 99);
@@ -905,6 +910,7 @@
             }
 
             generateLevel3Abacus3DigitProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(100, 999);
@@ -1016,7 +1022,7 @@
             }
 
             generateLevel4MentalMath2DigitProblem() {
-                this.setAutoSpeed(1.1);
+                this.setAutoSpeed(.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(10, 99);
@@ -1054,6 +1060,7 @@
 
             // Level 5 Generators
             generateLevel5UseAbacus3DigitProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(100, 999);
@@ -1086,6 +1093,7 @@
             }
 
             generateLevel5UseAbacusDecimalsProblem() {
+                this.setAutoSpeed(0.8);
                 this.isDecimal = true;
                 let numbers = [];
                 let operations = [];
@@ -1120,7 +1128,7 @@
             }
 
             generateLevel5MentalMath2DigitProblem() {
-                this.setAutoSpeed(1.4);
+                this.setAutoSpeed(.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(10, 99);
@@ -1161,6 +1169,7 @@
 
             // Level 6 Generators
             generateLevel6UseAbacus4DigitProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(1000, 9999);
@@ -1199,6 +1208,7 @@
             }
 
             generateLevel6UseAbacusDecimalsProblem() {
+                this.setAutoSpeed(0.8);
                 this.isDecimal = true;
                 let numbers = [];
                 let operations = [];
@@ -1233,7 +1243,7 @@
             }
 
             generateLevel6MentalMath2DigitProblem() {
-                this.setAutoSpeed(1.4);
+                this.setAutoSpeed(.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(10, 99);
@@ -1266,7 +1276,7 @@
             }
 
             generateLevel6MentalMath3DigitProblem() {
-                this.setAutoSpeed(1.2);
+                this.setAutoSpeed(.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(100, 999);
@@ -1303,6 +1313,7 @@
             }
 
             generateLevel6MentalMathMultiplicationProblem() {
+                this.setAutoSpeed(0.8);
                 let threeDigit = this.random(100, 999);
                 let oneDigit = this.random(1, 9);
                 this.currentAnswer = threeDigit * oneDigit;
@@ -1310,6 +1321,7 @@
             }
 
             generateLevel6MentalMathDivisionProblem() {
+                this.setAutoSpeed(0.8);
                 let twoDigit;
                 let oneDigit = 9;
                 let result = 0;
@@ -1370,6 +1382,7 @@
             }
 
             generateLevel7UseAbacusDecimalsProblem() {
+                this.setAutoSpeed(0.8);
                 this.isDecimal = true;
                 let numbers = [];
                 let operations = [];
@@ -1404,6 +1417,7 @@
             }
 
             generateLevel7MentalMath2And3DigitProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(100, 999);
@@ -1448,6 +1462,7 @@
             }
 
             generateLevel7MentalMath4DigitProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(1000, 9999);
@@ -1486,6 +1501,7 @@
             }
 
             generateLevel7MentalMathMultiplicationProblem() {
+                this.setAutoSpeed(0.8);
                 let firstTwoDigit = this.random(10, 99);
                 let secondTwoDigit = this.random(10, 99);
                 this.currentAnswer = firstTwoDigit * secondTwoDigit;
@@ -1519,6 +1535,7 @@
 
             // Level 8 Generators
             generateLevel8UseAbacus5DigitsProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(10000, 99999);
@@ -1557,6 +1574,7 @@
             }
 
             generateLevel8UseAbacus6DigitsProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(100000, 999999);
@@ -1592,6 +1610,7 @@
             }
 
             generateLevel8MentalMath3DigitProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(100, 999);
@@ -1627,6 +1646,7 @@
             }
 
             generateLevel8MentalMath4DigitProblem() {
+                this.setAutoSpeed(0.8);
                 let numbers = [];
                 let operations = [];
                 let cumulativeSum = this.random(1000, 9999);
@@ -1665,6 +1685,7 @@
             }
 
             generateLevel8MentalMathMultiplicationProblem() {
+                this.setAutoSpeed(0.8);
                 let threeDigit = this.random(100, 999);
                 let twoDigit = this.random(10, 99);
                 this.currentAnswer = threeDigit * twoDigit;
@@ -1672,6 +1693,7 @@
             }
 
             generateLevel8MentalMathDivisionProblem() {
+                this.setAutoSpeed(0.8);
                 let fourDigit;
                 let twoDigit;
                 let result;
@@ -1726,6 +1748,7 @@
                 document.getElementById('newProblemBtn').disabled = false;
                 document.getElementById('answerInput').disabled = false;
                 document.getElementById('answerInput').focus();
+                document.getElementById('submitBtn').disabled = false;
                 
                 this.generateNewProblem();
             }
@@ -1745,6 +1768,7 @@
                 document.getElementById('repeatBtn').disabled = true;
                 document.getElementById('newProblemBtn').disabled = true;
                 document.getElementById('answerInput').disabled = true;
+                document.getElementById('submitBtn').disabled = true;
                 document.getElementById('answerInput').value = '';
                 document.getElementById('feedback').innerHTML = '';
                 document.getElementById('problemDisplay').textContent = 'Select a level and mode, then click "Start" to begin!';
