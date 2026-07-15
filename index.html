@@ -432,6 +432,7 @@
 
         <div class="section">
             <input type="text" class="answer-input" id="answerInput" placeholder="Enter your answer..." disabled>
+            <button class="btn btn-primary" id="submitBtn" style="width: 100%; margin-top: 12px;" disabled>Submit Answer</button>
         </div>
 
         <div id="feedback"></div>
@@ -455,9 +456,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/gh/your-username/math-dictator@main/script.js"></script>
-</body>
-
     <script>
         class MathDictator {
             constructor() {
@@ -466,11 +464,13 @@
                 this.currentProblem = null;
                 this.currentAnswer = null;
                 this.isDecimal = false;
+                this.decimalPlaces = 2;
                 this.isActive = false;
                 this.correct = 0;
                 this.attempts = 0;
                 this.speechRate = 1.0;
                 this.autoSpeedSet = false;
+                this.userSetSpeed = false;
                 this.nextProblemTimeout = null;
                 
                 this.synth = window.speechSynthesis;
@@ -587,11 +587,18 @@
                     }
                 });
 
+                document.getElementById('submitBtn').addEventListener('click', () => {
+                    if (this.isActive) {
+                        this.checkAnswer();
+                    }
+                });
+
                 const speechRateSlider = document.getElementById('speechRate');
                 speechRateSlider.addEventListener('input', (e) => {
                     this.speechRate = parseFloat(e.target.value);
                     document.getElementById('speedValue').textContent = this.speechRate.toFixed(1) + 'x';
                     this.autoSpeedSet = false;
+                    this.userSetSpeed = true;
                     document.getElementById('autoSpeedIndicator').textContent = '';
                 });
             }
@@ -614,7 +621,7 @@
 
             formatNumberForTTS(number) {
                 if (typeof number === 'number' && !Number.isInteger(number)) {
-                    let numberString = number.toFixed(2);
+                    let numberString = number.toFixed(this.decimalPlaces);
                     if (number >= 0 && number < 1) {
                         return 'zero point ' + numberString.split('.')[1];
                     }
@@ -624,6 +631,9 @@
             }
 
             setAutoSpeed(rate) {
+                if (this.userSetSpeed) {
+                    return;
+                }
                 this.speechRate = rate;
                 document.getElementById('speechRate').value = rate;
                 document.getElementById('speedValue').textContent = rate.toFixed(1) + 'x';
@@ -633,6 +643,7 @@
 
             generateProblem() {
                 this.isDecimal = false;
+                this.decimalPlaces = 2;
                 let problemStatement = '';
 
                 if (this.currentLevel === 2) {
@@ -1013,13 +1024,14 @@
             generateLevel4UseAbacusDecimalsProblem() {
                 this.setAutoSpeed(0.8);
                 this.isDecimal = true;
+                this.decimalPlaces = 1;
                 let numbers = [];
                 let operations = [];
-                let cumulativeSum = this.randomDecimal(0.1, 9.9);
+                let cumulativeSum = parseFloat(this.randomDecimal(0.1, 9.9).toFixed(1));
                 numbers.push(cumulativeSum);
 
                 for (let i = 0; i < 4; i++) {
-                    let num = this.randomDecimal(0.1, 9.9);
+                    let num = parseFloat(this.randomDecimal(0.1, 9.9).toFixed(1));
                     if (Math.random() < 0.5) {
                         cumulativeSum += num;
                         numbers.push(num);
@@ -1121,11 +1133,11 @@
                 this.isDecimal = true;
                 let numbers = [];
                 let operations = [];
-                let cumulativeSum = this.randomDecimal(0.01, 9.99);
+                let cumulativeSum = parseFloat(this.randomDecimal(0.01, 9.99).toFixed(2));
                 numbers.push(cumulativeSum);
 
                 for (let i = 0; i < 4; i++) {
-                    let num = this.randomDecimal(0.01, 9.99);
+                    let num = parseFloat(this.randomDecimal(0.01, 9.99).toFixed(2));
                     if (Math.random() < 0.5) {
                         cumulativeSum += num;
                         operations.push('plus');
@@ -1144,7 +1156,7 @@
 
                 let problemStatement = this.formatNumberForTTS(numbers[0]);
                 for (let i = 1; i < numbers.length; i++) {
-                    problemStatement += ' ' + operations[i - 1] + ' ' + this.formatNumberForTTS(numbers[i]);
+                    problemStatement += ' , ' + operations[i - 1] + ' ' + this.formatNumberForTTS(numbers[i]);
                 }
 
                 this.currentAnswer = cumulativeSum;
@@ -1236,11 +1248,11 @@
                 this.isDecimal = true;
                 let numbers = [];
                 let operations = [];
-                let cumulativeSum = this.randomDecimal(10.00, 99.99);
+                let cumulativeSum = parseFloat(this.randomDecimal(10.00, 99.99).toFixed(2));
                 numbers.push(cumulativeSum);
 
                 for (let i = 0; i < 4; i++) {
-                    let num = this.randomDecimal(10.00, 99.99);
+                    let num = parseFloat(this.randomDecimal(10.00, 99.99).toFixed(2));
                     if (Math.random() < 0.5) {
                         cumulativeSum += num;
                         operations.push('plus');
@@ -1410,11 +1422,11 @@
                 this.isDecimal = true;
                 let numbers = [];
                 let operations = [];
-                let cumulativeSum = this.randomDecimal(100.00, 999.99);
+                let cumulativeSum = parseFloat(this.randomDecimal(100.00, 999.99).toFixed(2));
                 numbers.push(cumulativeSum);
 
                 for (let i = 0; i < 4; i++) {
-                    let num = this.randomDecimal(100.00, 999.99);
+                    let num = parseFloat(this.randomDecimal(100.00, 999.99).toFixed(2));
                     if (Math.random() < 0.5) {
                         cumulativeSum += num;
                         operations.push('plus');
@@ -1433,7 +1445,7 @@
 
                 let problemStatement = numbers[0].toFixed(2);
                 for (let i = 1; i < numbers.length; i++) {
-                    problemStatement += ' ' + operations[i - 1] + ' ' + numbers[i].toFixed(2);
+                    problemStatement += ' , ' + operations[i - 1] + ' ' + numbers[i].toFixed(2);
                 }
 
                 this.currentAnswer = cumulativeSum;
@@ -1517,7 +1529,7 @@
 
                 let problemStatement = this.formatNumberWithComma(numbers[0]);
                 for (let i = 1; i < numbers.length; i++) {
-                    problemStatement += ' ' + operations[i - 1] + ' ' + this.formatNumberWithComma(numbers[i]);
+                    problemStatement += ' , ' + operations[i - 1] + ' ' + this.formatNumberWithComma(numbers[i]);
                 }
 
                 this.currentAnswer = cumulativeSum;
@@ -1702,7 +1714,7 @@
 
                 let problemStatement = this.formatNumberWithComma(numbers[0]);
                 for (let i = 1; i < numbers.length; i++) {
-                    problemStatement += ' ' + operations[i - 1] + ' ' + this.formatNumberWithComma(numbers[i]);
+                    problemStatement += ' , ' + operations[i - 1] + ' ' + this.formatNumberWithComma(numbers[i]);
                 }
 
                 this.currentAnswer = cumulativeSum;
@@ -1752,14 +1764,22 @@
                 utterance.pitch = 1;
                 utterance.volume = 1;
 
-                const dictatorFace = document.getElementById('dictatorFace');
-                
+                const nextBtn = document.getElementById('newProblemBtn');
+
                 utterance.onstart = () => {
-                    dictatorFace.classList.add('speaking');
+                    nextBtn.disabled = true;
                 };
 
                 utterance.onend = () => {
-                    dictatorFace.classList.remove('speaking');
+                    if (this.isActive) {
+                        nextBtn.disabled = false;
+                    }
+                };
+
+                utterance.onerror = () => {
+                    if (this.isActive) {
+                        nextBtn.disabled = false;
+                    }
                 };
 
                 this.synth.speak(utterance);
@@ -1772,6 +1792,7 @@
                 document.getElementById('repeatBtn').disabled = false;
                 document.getElementById('newProblemBtn').disabled = false;
                 document.getElementById('answerInput').disabled = false;
+                document.getElementById('submitBtn').disabled = false;
                 document.getElementById('answerInput').focus();
                 
                 this.generateNewProblem();
@@ -1792,6 +1813,7 @@
                 document.getElementById('repeatBtn').disabled = true;
                 document.getElementById('newProblemBtn').disabled = true;
                 document.getElementById('answerInput').disabled = true;
+                document.getElementById('submitBtn').disabled = true;
                 document.getElementById('answerInput').value = '';
                 document.getElementById('feedback').innerHTML = '';
                 document.getElementById('problemDisplay').textContent = 'Select a level and mode, then click "Start" to begin!';
@@ -1804,6 +1826,8 @@
             }
 
             generateNewProblem() {
+                // Disable Next while the problem is being dictated
+                document.getElementById('newProblemBtn').disabled = true;
                 this.generateProblem();
                 document.getElementById('problemDisplay').textContent = '🔊 Listen carefully...';
                 document.getElementById('feedback').innerHTML = '';
@@ -1831,7 +1855,7 @@
                 let correctAnswer;
                 
                 if (this.isDecimal) {
-                    correctAnswer = this.currentAnswer.toFixed(2);
+                    correctAnswer = this.currentAnswer.toFixed(this.decimalPlaces);
                     // Allow for slight rounding differences in decimal answers
                     const userNum = parseFloat(userAnswer);
                     const expectedNum = parseFloat(correctAnswer);
@@ -1903,4 +1927,3 @@
     </script>
 </body>
 </html>
- 
